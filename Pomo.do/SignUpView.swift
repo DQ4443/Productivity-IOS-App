@@ -6,15 +6,20 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct SignUpView: View {
     // TODO: implement sign up functionality and store user data in Firebase
     // TODO: name and email should be set by default in settingsView
     
+    // [Beta] TODO: add sign up with Google
+    
     @State private var name = ""
     @State private var email = ""
     @State private var password = ""
     @State private var confirmPassword = ""
+    @State private var 
+    @State private var showInvalidCredentialsText = false
     
     var body: some View {
         ZStack {
@@ -130,7 +135,9 @@ struct SignUpView: View {
                 
                 // Sign Up Button
                 VStack {
-                    NavigationLink(destination: LoginView()) {
+                    Button(action: {
+                        registerUser()
+                    }) {
                         Text("Sign Up")
                             .bold()
                             .padding()
@@ -140,11 +147,12 @@ struct SignUpView: View {
                             .cornerRadius(10)
                             .padding(.top, 30)
                     }
+                    .navigationDestination(isPresented: $)LoginView())
                 }
                 
                 // Sign Up with Google
                 VStack {
-                    Text("Or sign up with:")
+                    Text("Or sign up with (Beta):")
                         .font(.subheadline)
                         .foregroundColor(.secondary)
                         .padding(.top, 30)
@@ -171,6 +179,16 @@ struct SignUpView: View {
         }
         .navigationBarBackButtonHidden(true)
         
+    }
+    
+    // function for registering users
+    func registerUser() {
+        print(name, email)
+        Auth.auth().createUser(withEmail: email, password: password) { result, error in
+            if error != nil {
+                print(error!.localizedDescription)
+            }
+        }
     }
 }
 

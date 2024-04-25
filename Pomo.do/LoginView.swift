@@ -6,12 +6,19 @@
 //
 
 import SwiftUI
-
+import Firebase
 
 struct LoginView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var rememberMe = false
+    @State private var isLoggedIn = false
+    @State private var showInvalidCredentialsText = false
+    
+    // [Beta] TODO: add sign in with Google
+    // [Beta] TODO: add remember me functionality
+    // [Beta] TODO: add forgot password functionality with password reset
+//    @AppStorage("rememberMe") private var rememberMeEnabled = false
     
     var body: some View {
         
@@ -22,7 +29,7 @@ struct LoginView: View {
                 
                 VStack {
                     
-                    // Login and Sign up
+                    // Title text
                     HStack {
                         Text("Log in")
                             .font(.largeTitle)
@@ -42,6 +49,20 @@ struct LoginView: View {
                         }
                     }
                     .padding(.top, 50)
+                    
+                    // invalid credentials text
+                    if showInvalidCredentialsText {
+                        HStack {
+                            Text("Invalid Login Credentials")
+                                .foregroundColor(Color(red: 0.8, green: 0, blue: 0))
+                                .padding(.top, 2)
+                                .padding(.bottom, -40)
+                                .font(.caption)
+                                .padding(.horizontal, 40)
+                            Spacer()
+                        }
+                        
+                    }
                     
                     // VStack for email and password
                     VStack {
@@ -120,7 +141,9 @@ struct LoginView: View {
                     
                     // Log in button
                     VStack {
-                        NavigationLink(destination: MainView()) {
+                        Button(action: {
+                            login()
+                        }) {
                             Text("Log in")
                                 .bold()
                                 .padding()
@@ -130,6 +153,10 @@ struct LoginView: View {
                                 .cornerRadius(10)
                                 .padding(.top, 30)
                         }
+                        .navigationDestination(isPresented: $isLoggedIn) {
+                            MainView()
+                        }
+
                     }
                     
                     // Login with Google
@@ -161,8 +188,28 @@ struct LoginView: View {
                 }
             }
         }
+        // [Beta] TODO: add remember me functionality
+//        .onAppear {
+//            if rememberMeEnabled {
+//                isLoggedIn = true
+//            }
+//        }
         .navigationBarBackButtonHidden(true)
         
+        
+    }
+    
+    func login() {
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print(error.localizedDescription)
+                showInvalidCredentialsText = true
+            } else {
+                print("Login successful")
+                isLoggedIn = true
+                showInvalidCredentialsText = false
+            }
+        }
     }
 }
 
