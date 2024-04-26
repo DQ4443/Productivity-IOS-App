@@ -18,8 +18,10 @@ struct SignUpView: View {
     @State private var email = ""
     @State private var password = ""
     @State private var confirmPassword = ""
-    @State private var 
-    @State private var showInvalidCredentialsText = false
+    @State private var signUpSuccessful = false
+    @State private var showMissingNameError = false
+    @State private var showPassowrdMismatchError = false
+    @State private var errorMessage = ""
     
     var body: some View {
         ZStack {
@@ -47,6 +49,44 @@ struct SignUpView: View {
                     }
                 }
                 .padding(.top, 50)
+                
+                // invalid credentials text
+                HStack {
+                    if showPassowrdMismatchError {
+                        Text("The passwords don't match.")
+                            .foregroundColor(Color(red: 0.8, green: 0, blue: 0))
+                            .padding(.top, -5)
+                            .padding(.bottom, -40)
+                            .font(.caption)
+                            .padding(.horizontal, 40)
+                    } else if showMissingNameError {
+                        Text("Name cannot be blank.")
+                            .foregroundColor(Color(red: 0.8, green: 0, blue: 0))
+                            .padding(.top, -5)
+                            .padding(.bottom, -40)
+                            .font(.caption)
+                            .padding(.horizontal, 40)
+                    } else if errorMessage != "" {
+                        Text(errorMessage)
+                            .foregroundColor(Color(red: 0.8, green: 0, blue: 0))
+                            .padding(.top, -5)
+                            .padding(.bottom, -40)
+                            .font(.caption)
+                            .padding(.horizontal, 40)
+                    } else {
+                        Text("")
+                            .foregroundColor(Color(red: 0.8, green: 0, blue: 0))
+                            .padding(.top, -5)
+                            .padding(.bottom, -40)
+                            .font(.caption)
+                            .padding(.horizontal, 40)
+                    }
+                
+                    
+                    Spacer()
+                }
+                    
+                
                 
                 // Form
                 VStack {
@@ -137,6 +177,7 @@ struct SignUpView: View {
                 VStack {
                     Button(action: {
                         registerUser()
+                        print(signUpSuccessful)
                     }) {
                         Text("Sign Up")
                             .bold()
@@ -147,7 +188,9 @@ struct SignUpView: View {
                             .cornerRadius(10)
                             .padding(.top, 30)
                     }
-                    .navigationDestination(isPresented: $)LoginView())
+                    .navigationDestination(isPresented: $signUpSuccessful) {
+                        LoginView()
+                    }
                 }
                 
                 // Sign Up with Google
@@ -183,10 +226,26 @@ struct SignUpView: View {
     
     // function for registering users
     func registerUser() {
-        print(name, email)
+        if password != confirmPassword {
+            showPassowrdMismatchError = true
+            print("Passwords don't match.")
+            print(showPassowrdMismatchError)
+            return
+        } else if name.isEmpty {
+            showMissingNameError = true
+            print("Name cannot be blank.")
+            return
+        }
+        
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
-            if error != nil {
+            if (error != nil) {
                 print(error!.localizedDescription)
+                errorMessage = error!.localizedDescription
+            } else {
+                print("User created successfully.")
+                signUpSuccessful = true
+                showMissingNameError = false
+                showPassowrdMismatchError = false
             }
         }
     }
