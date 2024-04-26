@@ -9,6 +9,9 @@ import SwiftUI
 import Firebase
 
 struct LoginView: View {
+    @EnvironmentObject var dataManager: DataManager
+    
+    @State private var name = ""
     @State private var email = ""
     @State private var password = ""
     @State private var rememberMe = false
@@ -215,4 +218,5 @@ struct LoginView: View {
 
 #Preview {
     LoginView()
+        .environmentObject(DataManager())
 }

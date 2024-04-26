@@ -6,9 +6,11 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct TaskListView: View {
-    @Binding var task: TaskItem
+    @EnvironmentObject var dataManager: DataManager
+    var task: TaskItem
     
     // TODO: add triple dots for edit options
     // TODO: add edit options View (basically copy from CreateNewTaskView)
@@ -27,8 +29,19 @@ struct TaskListView: View {
                 .frame(width: 25, height: 25)
                 .foregroundColor(task.isChecked ? Color(red: 0.8, green: 0, blue: 0) : .black)
                 .onTapGesture {
-                    task.isChecked.toggle()
+                    updateTaskInFirestore()
                 }
+            
+            Button(action: {
+                deleteTaskFromFirestore()
+            }) {
+                Image(systemName: "xmark")
+                    .resizable()
+                    .frame(width: 10, height: 10)
+                    .foregroundColor(task.isChecked ? Color(red: 0.8, green: 0, blue: 0).opacity(0.6) : .gray)
+                    .bold()
+                    .padding(.leading, 2)
+            }
             
         }
         .padding()
@@ -39,13 +52,42 @@ struct TaskListView: View {
                 .stroke(Color.black, lineWidth: 0)
         )
     }
+    
+    private func updateTaskInFirestore() {
+            let db = Firestore.firestore()
+            let ref = db.collection("Tasks").document(task.id)
+            ref.updateData(["isChecked": !task.isChecked]) { error in
+                if let error = error {
+                    print("Error updating task in Firestore: \(error.localizedDescription)")
+                } else {
+                    print("Task updated in Firestore successfully!")
+                }
+            }
+        }
+    
+    private func deleteTaskFromFirestore() {
+        let db = Firestore.firestore()
+        let ref = db.collection("Tasks").document(task.id)
+        ref.delete { error in
+            if let error = error {
+                print("Error deleting task from Firestore: \(error.localizedDescription)")
+            } else {
+                print("Task deleted from Firestore successfully!")
+            }
+        }
+    }
 }
 
 
 // TODO: add flag to indicate priority
 // TODO: add flair to indicate category
-struct TaskItem: Identifiable {
-    let id = UUID()
+struct TaskItem: Identifiable, Codable {
+    let id: String
     var taskName: String
     var isChecked: Bool
+}
+
+#Preview {
+    HomeView(name: .constant("Jay"))
+        .environmentObject(DataManager())
 }

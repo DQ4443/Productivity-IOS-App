@@ -10,6 +10,8 @@ import Firebase
 
 @main
 struct Pomo_doApp: App {
+    @StateObject var dataManager = DataManager()
+    
     init() {
         FirebaseApp.configure()
     }
@@ -17,6 +19,7 @@ struct Pomo_doApp: App {
     var body: some Scene {
         WindowGroup {
             LaunchView()
+                .environmentObject(dataManager)
         }
     }
 }

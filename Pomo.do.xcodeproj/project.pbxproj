@@ -27,6 +27,7 @@
 		ADA12D642BDB102400771DAF /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = ADA12D632BDB102400771DAF /* FirebaseAuth */; };
 		ADA12D662BDB102C00771DAF /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = ADA12D652BDB102C00771DAF /* FirebaseFirestore */; };
 		ADA12D682BDB282800771DAF /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA12D672BDB282800771DAF /* SignUpView.swift */; };
+		ADA12D6A2BDB6CEB00771DAF /* DataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = ADA12D692BDB6CEB00771DAF /* DataManager.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -69,6 +70,7 @@
 		ADA09A162BD6FBAC004BEA96 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		ADA12D602BDB0D5600771DAF /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ADA12D672BDB282800771DAF /* SignUpView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		ADA12D692BDB6CEB00771DAF /* DataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataManager.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 				ADA12D672BDB282800771DAF /* SignUpView.swift */,
 				AD68A78A2BD79D53000C6088 /* SettingsView.swift */,
 				AD68A7842BD781CD000C6088 /* TaskListView.swift */,
+				ADA12D692BDB6CEB00771DAF /* DataManager.swift */,
 				AD16CA612BDAC7A900AF5AF3 /* CreateTaskView.swift */,
 				ADA09A142BD39A69004BEA96 /* pomologo.png */,
 				ADA099ED2BD39877004BEA96 /* Assets.xcassets */,
@@ -314,6 +317,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				ADA09A172BD6FBAC004BEA96 /* LoginView.swift in Sources */,
+				ADA12D6A2BDB6CEB00771DAF /* DataManager.swift in Sources */,
 				ADA099EC2BD39876004BEA96 /* LaunchView.swift in Sources */,
 				AD16CA602BD8619300AF5AF3 /* MainView.swift in Sources */,
 				AD68A78B2BD79D53000C6088 /* SettingsView.swift in Sources */,

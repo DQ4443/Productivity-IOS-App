@@ -9,8 +9,7 @@ import SwiftUI
 import Firebase
 
 struct SignUpView: View {
-    // TODO: implement sign up functionality and store user data in Firebase
-    // TODO: name and email should be set by default in settingsView
+    @EnvironmentObject var dataManager: DataManager
     
     // [Beta] TODO: add sign up with Google
     
@@ -69,6 +68,13 @@ struct SignUpView: View {
                     } else if errorMessage != "" {
                         Text(errorMessage)
                             .foregroundColor(Color(red: 0.8, green: 0, blue: 0))
+                            .padding(.top, -5)
+                            .padding(.bottom, -40)
+                            .font(.caption)
+                            .padding(.horizontal, 40)
+                    } else if signUpSuccessful {
+                        Text("Sign Up Successful. Going Back to Login Page.")
+                            .foregroundColor(Color(red: 0, green: 0.7, blue: 0))
                             .padding(.top, -5)
                             .padding(.bottom, -40)
                             .font(.caption)
@@ -254,5 +260,6 @@ struct SignUpView: View {
 struct SignUpView_Previews: PreviewProvider {
     static var previews: some View {
         SignUpView()
+            .environmentObject(DataManager())
     }
 }

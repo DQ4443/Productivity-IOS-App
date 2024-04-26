@@ -315,7 +315,6 @@ struct SettingsView: View {
             }
             .padding(.horizontal, 60)
             .padding(.top, 30)
-            
             .navigationBarBackButtonHidden(true)
         }
     }

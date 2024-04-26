@@ -7,16 +7,20 @@
 
 import SwiftUI
 
+// TODO: implement persistence for tasks and other user settingsf
+
 struct HomeView: View {
+    @EnvironmentObject var dataManager: DataManager
+    
     @Binding var name: String
     
-    @State var tasks = [
-        TaskItem(taskName: "Proposal Document", isChecked: true),
-        TaskItem(taskName: "Homework 7", isChecked: true),
-        TaskItem(taskName: "Open App", isChecked: true),
-        TaskItem(taskName: "Figma Prototype", isChecked: false),
-        TaskItem(taskName: "Build App", isChecked: false)
-    ]
+//    @State var tasks = [
+//        TaskItem(taskName: "Proposal Document", isChecked: true),
+//        TaskItem(taskName: "Homework 7", isChecked: true),
+//        TaskItem(taskName: "Open App", isChecked: true),
+//        TaskItem(taskName: "Figma Prototype", isChecked: false),
+//        TaskItem(taskName: "Build App", isChecked: false)
+//    ]
 
     
     // [Beta] TODO: reset tasks everyday / overdue etc.
@@ -25,13 +29,13 @@ struct HomeView: View {
     
     
     private var progress: Double {
-        let completedTasks = tasks.filter { $0.isChecked }.count
-        return Double(completedTasks) / Double(tasks.count)
+        let completedTasks = dataManager.tasks.filter { $0.isChecked }.count
+        return Double(completedTasks) / Double(dataManager.tasks.count)
     }
     
     private var completedTasksText: String {
-        let completedTasks = tasks.filter { $0.isChecked }.count
-        return "\(completedTasks) of \(tasks.count) tasks\ncompleted today!"
+        let completedTasks = dataManager.tasks.filter { $0.isChecked }.count
+        return "\(completedTasks) of \(dataManager.tasks.count) tasks\ncompleted today!"
     }
     
     private let dateFormatter: DateFormatter = {
@@ -41,7 +45,7 @@ struct HomeView: View {
     }()
     
     var body: some View {
-        GeometryReader { geometry in
+        NavigationStack {
             ZStack {
                 Color(red: 0.95, green: 0.95, blue: 0.95)
                     .ignoresSafeArea()
@@ -140,7 +144,7 @@ struct HomeView: View {
                             Spacer()
                             
                             // TODO: change to an add new task button
-                            NavigationLink(destination: CreateTaskView(tasks: $tasks)) {
+                            NavigationLink(destination: CreateTaskView()) {
                                 Text("Add New Task")
                                     .foregroundColor(Color(red: 0.8, green: 0, blue: 0))
                                     .font(.subheadline)
@@ -151,14 +155,20 @@ struct HomeView: View {
                         .padding(.horizontal)
                         .padding(.vertical)
                         
-                        List {
-                            ForEach($tasks) { $task in
-                                TaskListView(task: $task)
-                                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 15, trailing: 15))
-                                    .listRowBackground(Color.clear)
-                            }
+                        List(dataManager.tasks) { task in
+                            TaskListView(task: task)
+                                .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 15, trailing: 15))
+                                .listRowBackground(Color.clear)
                         }
                         .listStyle(PlainListStyle())
+    //                        List {
+    //                            ForEach($tasks) { $task in
+    //                                TaskListView(task: $task)
+    //                                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 15, trailing: 15))
+    //                                    .listRowBackground(Color.clear)
+    //                            }
+    //                        }
+    //                        .listStyle(PlainListStyle())
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 8)
@@ -171,9 +181,9 @@ struct HomeView: View {
                     
                 }
             }
-            .frame(width: geometry.size.width, height: geometry.size.height)
+            .navigationBarBackButtonHidden(true)
         }
-        .navigationBarBackButtonHidden(true)
+        
 
         
         
@@ -185,5 +195,6 @@ struct HomeView: View {
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
         HomeView(name: .constant("David Qu"))
+            .environmentObject(DataManager())
     }
 }

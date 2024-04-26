@@ -17,6 +17,8 @@ extension View {
 
 
 struct MainView: View {
+    @EnvironmentObject var dataManager: DataManager
+    
     @State private var name = ""
     @State private var email = ""
     @State private var pomoLengthMinutes = 25
@@ -110,4 +112,5 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environmentObject(DataManager())
 }

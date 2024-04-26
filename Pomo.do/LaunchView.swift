@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LaunchView: View {
+    @EnvironmentObject var dataManager: DataManager
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -60,4 +62,5 @@ struct LaunchView: View {
 
 #Preview {
     LaunchView()
+        .environmentObject(DataManager())
 }

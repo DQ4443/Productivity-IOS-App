@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import Firebase
 
 struct CreateTaskView: View {
-    @Binding var tasks: [TaskItem]
+    @EnvironmentObject var dataManger: DataManager
     @Environment(\.presentationMode) var presentationMode
     
     @State private var name = ""
+    @State private var newTaskid = ""
     @State private var newTaskNameTemp = ""
     @State private var newTaskDescriptionTemp = ""
     
@@ -126,8 +128,8 @@ struct CreateTaskView: View {
             VStack {
                 Button(action: {
                     if (!newTaskNameTemp.isEmpty) {
-                        let newTask = TaskItem(taskName: newTaskNameTemp, isChecked: false)
-                        tasks.append(newTask)
+                        let newTask = TaskItem(id: newTaskid, taskName: newTaskNameTemp, isChecked: false)
+                        saveTaskToFirestore(task: newTask)
                         presentationMode.wrappedValue.dismiss()
                     } else {
                         showEmptyTaskNameMessage = true
@@ -151,8 +153,8 @@ struct CreateTaskView: View {
                         }
                             
                     }
-                    
                 }
+                
             }
             .padding(.bottom, 60)
             
@@ -168,9 +170,28 @@ struct CreateTaskView: View {
         .padding(.vertical, 40)
         .navigationBarBackButtonHidden()
         
+        
+    }
+    
+    private func saveTaskToFirestore(task: TaskItem) {
+        let db = Firestore.firestore()
+        let ref = db.collection("Tasks").document(task.taskName)
+        let data: [String: Any] = [
+            "id": ref.documentID,
+            "taskName": task.taskName,
+            "isChecked": task.isChecked
+        ]
+        ref.setData(data) { error in
+            if let error = error {
+                print("Error adding task to Firestore: \(error.localizedDescription)")
+            } else {
+                print("Task added Firestore successfully!")
+            }
+        }
     }
 }
 
 #Preview {
-    CreateTaskView(tasks: .constant([TaskItem(taskName: "Proposal Document", isChecked: true)]))
+    CreateTaskView()
+        .environmentObject(DataManager())
 }
