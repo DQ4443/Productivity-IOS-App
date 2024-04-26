@@ -42,7 +42,7 @@ struct LaunchView: View {
                     // Begin Button
                     VStack {
                         NavigationLink(destination: LoginView()) {
-                            Text("Begin >")
+                            Text("Let's Begin.")
                                 .foregroundColor(.black)
                                 .font(.system(size: 20, weight: .bold))
                                 .background(Color.clear)

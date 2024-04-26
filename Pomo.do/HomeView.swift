@@ -14,15 +14,6 @@ struct HomeView: View {
     
     @Binding var name: String
     
-//    @State var tasks = [
-//        TaskItem(taskName: "Proposal Document", isChecked: true),
-//        TaskItem(taskName: "Homework 7", isChecked: true),
-//        TaskItem(taskName: "Open App", isChecked: true),
-//        TaskItem(taskName: "Figma Prototype", isChecked: false),
-//        TaskItem(taskName: "Build App", isChecked: false)
-//    ]
-
-    
     // [Beta] TODO: reset tasks everyday / overdue etc.
     // [Beta] TODO: Add ability to queue tasks so that it comes back everyday
     // [Beta] TODO: Customizable Profile Picture
@@ -161,14 +152,7 @@ struct HomeView: View {
                                 .listRowBackground(Color.clear)
                         }
                         .listStyle(PlainListStyle())
-    //                        List {
-    //                            ForEach($tasks) { $task in
-    //                                TaskListView(task: $task)
-    //                                    .listRowInsets(EdgeInsets(top: 0, leading: 15, bottom: 15, trailing: 15))
-    //                                    .listRowBackground(Color.clear)
-    //                            }
-    //                        }
-    //                        .listStyle(PlainListStyle())
+
                     }
                     .background(
                         RoundedRectangle(cornerRadius: 8)
@@ -183,10 +167,6 @@ struct HomeView: View {
             }
             .navigationBarBackButtonHidden(true)
         }
-        
-
-        
-        
         
     }
     

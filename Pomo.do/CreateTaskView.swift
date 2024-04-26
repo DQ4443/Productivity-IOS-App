@@ -158,8 +158,6 @@ struct CreateTaskView: View {
             }
             .padding(.bottom, 60)
             
-            
-            
         }
         .background(
             RoundedRectangle(cornerRadius: 8)
@@ -169,7 +167,6 @@ struct CreateTaskView: View {
         .padding(.horizontal, 40)
         .padding(.vertical, 40)
         .navigationBarBackButtonHidden()
-        
         
     }
     

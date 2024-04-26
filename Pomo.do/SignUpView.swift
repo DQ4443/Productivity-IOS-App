@@ -199,7 +199,7 @@ struct SignUpView: View {
                     }
                 }
                 
-                // Sign Up with Google
+                // [Beta] Sign Up with Google
                 VStack {
                     Text("Or sign up with (Beta):")
                         .font(.subheadline)

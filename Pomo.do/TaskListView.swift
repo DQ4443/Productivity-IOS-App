@@ -12,9 +12,6 @@ struct TaskListView: View {
     @EnvironmentObject var dataManager: DataManager
     var task: TaskItem
     
-    // TODO: add triple dots for edit options
-    // TODO: add edit options View (basically copy from CreateNewTaskView)
-    
     var body: some View {
         HStack {
             Text(task.taskName)
@@ -79,8 +76,8 @@ struct TaskListView: View {
 }
 
 
-// TODO: add flag to indicate priority
-// TODO: add flair to indicate category
+// [Beta] TODO: add flag to indicate priority
+// [Beta] TODO: add flair to indicate category
 struct TaskItem: Identifiable, Codable {
     let id: String
     var taskName: String

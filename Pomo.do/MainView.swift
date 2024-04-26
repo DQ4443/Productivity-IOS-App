@@ -15,7 +15,6 @@ extension View {
     }
 }
 
-
 struct MainView: View {
     @EnvironmentObject var dataManager: DataManager
     
@@ -36,7 +35,6 @@ struct MainView: View {
         UITabBar.appearance().backgroundColor = .white // Set the background color
         UITabBar.appearance().unselectedItemTintColor = .gray // Set the unselected item color
         UITabBar.appearance().tintColor = .red
-//        Color(red:0.8, green:0, blue:0) // Set the selected item color
     }
     
     var body: some View {
@@ -92,9 +90,6 @@ struct MainView: View {
             .accentColor(Color(red:0.8, green:0, blue:0))
             .navigationBarBackButtonHidden(true)
         }
-        
-        
-        
     }
     
     // swipe and show bar functionality (laggy)
@@ -106,7 +101,6 @@ struct MainView: View {
 //        }
 //        print(selectedTab)
 //    }
-
 
 }
 
