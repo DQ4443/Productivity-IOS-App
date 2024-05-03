@@ -85,7 +85,7 @@ struct MainView: View {
     //                .highPriorityGesture(DragGesture().onEnded({ self.handleSwipe(translation: $0.translation.width)}))
             }
             .if(swipeControlOn) { view in
-                view.tabViewStyle(.page)
+                view.tabViewStyle(.page(indexDisplayMode: .never))
             }
             .accentColor(Color(red:0.8, green:0, blue:0))
             .navigationBarBackButtonHidden(true)
